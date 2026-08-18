@@ -22,6 +22,7 @@
 - 🎙️ **Discord Ses Odaları (RTC / UDP):** Yalnızca metin kanallarını değil, Discord ses kanallarını da sorunsuz açar.
 - 🌐 **Yasaklı Siteler & Web:** Engelli tüm web sitelerine tam erişim sağlar.
 - ⚡ **Otomatik Yönetici Modu:** Dosyalara sağ tıklamaya gerek yoktur; çift tıklamayla otomatik yönetici izniyle açılır.
+- 🔄 **6 Farklı Superonline Alternatif Modu:** Farklı şehirler veya altyapılar (Fiber/VDSL) için test edilmiş 6 özel profil.
 
 ---
 
@@ -31,14 +32,19 @@
 | :--- | :--- |
 | **`1_HIZMETI_KUR_OTOMATIK.cmd`** | *(Önerilen)* Windows açılışında arkada otomatik ve sessizce çalışır. Discord ve tüm sitelere 7/24 kesintisiz erişim sağlar. |
 | **`2_TEK_SEFERLIK_BASLAT_DISCORD_VE_YASAKLI_SITELER.cmd`** | Geçici mod. Bu pencere açık kaldığı sürece Discord ve tüm yasaklı siteler açılır; pencereyi kapattığınızda sonlanır. |
-| **`3_HIZMETI_KALDIR_TEMIZLE.cmd`** | Kurulmuş servisi kaldırır ve sistemi varsayılan ayarlara döndürür. |
-| **`4_BAGLANTI_TESTI.cmd`** | Discord ve bağlantı durumunu test eder. |
+| **`3_ALTERNATIF_MOD_SECICI.cmd`** | Standart mod çalışmazsa 6 farklı Superonline alternatifinden birini seçip kurabileceğiniz veya test edebileceğiniz menü aracı. |
+| **`4_HIZMETI_KALDIR_TEMIZLE.cmd`** | Kurulmuş servisi kaldırır ve sistemi varsayılan ayarlara döndürür. |
+| **`5_BAGLANTI_TESTI.cmd`** | Discord ve bağlantı durumunu test eder. |
 
 ---
 
-## 🇬🇧 English Description
-
-**zDPI** is a lightweight, zero-latency DPI bypass tool engineered by **FRKN** to circumvent ISP Deep Packet Inspection (DPI) and restore full access to Discord (including Voice/RTC channels) and restricted web services in Turkey (Superonline & other ISPs).
+## 🛠️ Superonline Alternatif Modları (`alternatifler/`)
+1. **Mod 1 (Standart):** En güncel Fake+Split2 Superonline profili.
+2. **Mod 2 (TTL 3):** Klasik Superonline TTL 3 bypass profili.
+3. **Mod 3 (Agresif):** Multi-disorder paket bölücü (Katı DPI filtreleri için).
+4. **Mod 4 (TTL 4):** Turkcell genel fiber/VDSL profili.
+5. **Mod 5 (Discord Ses STUN):** Discord ses odasında "RTC bağlanıyor"da takılanlar için.
+6. **Mod 6 (Hafif Fake):** Sade fake paket modu.
 
 ---
 
