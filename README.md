@@ -1,63 +1,55 @@
 # ⚡ zDPI for Superonline
 
 <p align="center">
-  <img src="app/assets/logo.png" width="160" alt="zDPI Logo" /><br>
-  <b>0ms Ping • Discord & Universal DPI Bypass for Superonline</b><br>
-  <i>by <b>FRKN</b> • FailureStudio</i>
+  <b>0ms Ping • Discord & Universal DPI Bypass for Superonline & Turkish ISPs</b><br>
+  <i>by <b>FRKN</b></i>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Ping_Impact-0ms-success?style=for-the-badge" alt="0ms Ping">
-  <img src="https://img.shields.io/badge/Platform-Windows_10_%2F_11-blue?style=for-the-badge" alt="Platform">
-  <img src="https://img.shields.io/badge/Developer-FRKN-amber?style=for-the-badge" alt="FRKN">
+  <img src="https://img.shields.io/badge/Ping-0ms_Impact-success?style=for-the-badge" alt="0ms Ping">
+  <img src="https://img.shields.io/badge/Platform-Windows_10_%2F_11-blue?style=for-the-badge" alt="Windows 10/11">
+  <img src="https://img.shields.io/badge/Author-FRKN-amber?style=for-the-badge" alt="FRKN">
 </p>
 
 ---
 
-## 🇹🇷 Türkçe (TR)
+## 🇹🇷 Türkçe Açıklama
 
-**zDPI**, Türkiye'deki internet servis sağlayıcılarının (özellikle **Turkcell Superonline** altyapısının) uyguladığı derin paket inceleme (DPI), DNS kısıtlamaları ve Discord engellemelerini aşmak için **FRKN** tarafından optimize edilmiş açık kaynaklı bir DPI bypass ve ağ optimizasyon aracıdır.
+**zDPI**, Türkiye'deki internet servis sağlayıcılarının (özellikle **Turkcell Superonline** altyapısının) uyguladığı derin paket inceleme (DPI), DNS kısıtlamaları ve Discord engellemelerini aşmak için **FRKN** tarafından optimize edilmiş hafif ve etkili bir DPI atlatma aracıdır.
 
 ### 🌟 Özellikler
-- 🚀 **0ms Ping Etkisi:** VPN değildir, trafiğinizi uzak sunuculara yönlendirmez. Oyunlarda (Valorant, CS2, LoL) pinginizi **0 ms** artırır.
-- 🎙️ **Discord & Ses Kanalları:** Yalnızca metin kanallarını değil, Discord ses odalarını ve medya sunucularını da kesintisiz açar.
-- 💎 **Liquid Glass Masaüstü Arayüzü:** Tek tıkla otomatik servis kurulumu veya geçici tek seferlik açım.
-- ⚡ **Otomatik Arka Plan Servisi:** İsteğe bağlı olarak Windows başlangıcında sessizce çalışır.
+- 🚀 **0ms Ping:** VPN değildir, internet trafiğinizi yönlendirmez. Oyunlarda (Valorant, CS2, LoL vb.) pinginizi **0 ms** artırır.
+- 🎙️ **Discord Ses Odaları (RTC / UDP):** Yalnızca metin kanallarını değil, Discord ses kanallarını da sorunsuz açar.
+- 🌐 **Yasaklı Siteler & Web:** Engelli tüm sitelere tam erişim sağlar.
+- ⚙️ **Sıfır Kurulum & Kolay Kullanım:** CMD dosyalarına sağ tıklayıp yönetici olarak çalıştırmanız yeterlidir.
 
 ---
 
-### 🚀 Nasıl Kullanılır? (Hızlı Kurulum)
+### 🚀 Nasıl Kullanılır?
 
-1. [Releases](https://github.com/heFRKN/zDPI-for-superonline/releases) veya yeşil **Code -> Download ZIP** butonuna basarak projeyi bilgisayarınıza indirin ve ZIP'ten çıkartın.
-2. Ana klasörde bulunan **`zDPI (Yönetici Olarak Çalıştır).cmd`** dosyasına sağ tıklayıp **Yönetici Olarak Çalıştır** deyin.
-3. Açılan modern arayüzden:
-   - **Hizmeti Kur (Otomatik Başlat):** Bilgisayarınız her açıldığında arkada otomatik çalışmasını istiyorsanız tek tıkla kurun.
-   - **Tek Seferlik Mod:** Sadece geçici olarak Discord ve siteleri açmak istiyorsanız kullanın.
+| Dosya | Açıklama |
+| :--- | :--- |
+| **`1_HIZMETI_KUR_OTOMATIK.cmd`** | *(Önerilen)* Windows açılışında arkada otomatik ve sessizce çalışır. |
+| **`2_TEK_SEFERLIK_BASLAT.cmd`** | Geçici mod. Bu pencere açık kaldığı sürece engeller kalkar, kapatınca sonlanır. |
+| **`3_HIZMETI_KALDIR_TEMIZLE.cmd`** | Kurulmuş servisi kaldırır ve sistemi varsayılan ayarlara döndürür. |
+| **`4_BAGLANTI_TESTI.cmd`** | Discord ve bağlantı durumunu test eder. |
 
----
-
-## 🇬🇧 English (EN)
-
-**zDPI** is a lightweight, zero-latency DPI bypass utility specifically engineered by **FRKN** to circumvent ISP Deep Packet Inspection (DPI) and restore full access to Discord (including Voice/RTC channels) and restricted web services.
-
-### ✨ Features
-- 🚀 **Zero Latency (0ms):** Direct hardware-level packet desync without routing through external VPN servers.
-- 🎙️ **Full Voice RTC Support:** Unlocks Discord text, voice, and media gateway endpoints.
-- 💎 **Modern Liquid Glass UI:** Beautiful, responsive desktop interface with one-click controls.
-- ⚡ **Windows Service Mode:** Optional seamless background operation on startup.
+> [!IMPORTANT]
+> Dosyaları çalıştırmadan önce **Sağ Tık $\rightarrow$ Yönetici Olarak Çalıştır** yapmanız gerekmektedir.
 
 ---
 
-### 🛠️ Manual Usage / Terminal Scripts
-Arayüz kullanmak istemeyenler için `app/scripts/` klasöründe bağımsız komut dosyaları mevcuttur:
-- `1_Hizmeti_Kur.cmd` : Arka plan servisini kurar.
-- `2_Tek_Seferlik.cmd` : Konsol penceresinde geçici oturum başlatır.
-- `3_Sistemleri_Temizle.cmd` : Tüm servisleri kaldırır ve ağı sıfırlar.
-- `4_Test.cmd` : Bağlantı tanı aracı.
+## 🇬🇧 English Description
+
+**zDPI** is a lightweight, zero-latency DPI bypass tool engineered by **FRKN** to circumvent ISP Deep Packet Inspection (DPI) and restore full access to Discord (including Voice/RTC channels) and restricted web services in Turkey (Superonline & other ISPs).
+
+### 🚀 Usage
+1. Run **`1_HIZMETI_KUR_OTOMATIK.cmd`** as Administrator to install the background service (starts with Windows, 0ms ping).
+2. Or run **`2_TEK_SEFERLIK_BASLAT.cmd`** as Administrator for a temporary one-time session.
+3. Run **`3_HIZMETI_KALDIR_TEMIZLE.cmd`** to uninstall and reset.
 
 ---
 
 <p align="center">
-  <b>Developed by FRKN</b><br>
-  <i>FailureStudio</i>
+  <b>Developed by FRKN</b>
 </p>
