@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 title zDPI - Hizmet Kurulumu (by FRKN)
 
-:: Otomatik Yonetici Yukseltmesi (Cift tiklandiginda otomatik yonetici olarak acar)
+:: Otomatik Yonetici Yukseltmesi (Cift tiklandiginda otomatik yonetici olarak calisir)
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
@@ -70,7 +70,7 @@ echo                   KURULUM BASARIYLA TAMAMLANDI!
 echo =======================================================================
 echo  1. Bilgisayariniz her acildiginda otomatik ve arkada sessizce calisir.
 echo  2. Oyunlarda pinginizi kesinlikle artirmaz (0ms ek gecikme / VPN degildir).
-echo  3. Discord ve yasakli sitelere erisim artik acik!
+echo  3. Discord ve engelli tum web sitelerine erisim artik acik!
 echo =======================================================================
 echo.
 pause

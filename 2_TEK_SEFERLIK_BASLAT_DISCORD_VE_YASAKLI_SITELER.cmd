@@ -1,8 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
-title zDPI - Tek Seferlik Mod (by FRKN)
+title zDPI - Tek Seferlik Mod (Discord ve Yasakli Siteler) by FRKN
 
-:: Otomatik Yonetici Yukseltmesi (Cift tiklandiginda otomatik yonetici olarak acar)
+:: Otomatik Yonetici Yukseltmesi (Cift tiklandiginda otomatik yonetici olarak calisir)
 net session >nul 2>&1
 if %errorlevel% neq 0 (
     powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
@@ -11,7 +11,7 @@ if %errorlevel% neq 0 (
 
 echo.
 echo =======================================================================
-echo                 zDPI - TEK SEFERLIK MOD (0ms Ping)
+echo          zDPI - TEK SEFERLIK MOD (DISCORD VE YASAKLI SITELER)
 echo                              by FRKN
 echo =======================================================================
 echo.
@@ -36,7 +36,7 @@ taskkill /f /im winws.exe >nul 2>&1
 taskkill /f /im goodbyedpi.exe >nul 2>&1
 taskkill /f /im ciadpi.exe >nul 2>&1
 
-echo [*] [2/3] Ag ayarlari optimize ediliyor...
+echo [*] [2/3] Ag ayarlari optimize ediliyor (IPv6 kapatma ^& DNS)...
 powershell -Command "Disable-NetAdapterBinding -Name 'Ethernet' -ComponentID ms_tcpip6 -ErrorAction SilentlyContinue; Set-DnsClientServerAddress -InterfaceAlias 'Ethernet' -ServerAddresses ('1.1.1.1','1.0.0.1') -ErrorAction SilentlyContinue" >nul 2>&1
 ipconfig /flushdns >nul 2>&1
 
@@ -44,11 +44,15 @@ cd /d "%~dp0core"
 
 echo [*] [3/3] zDPI Motoru Baslatiliyor...
 echo.
-echo -----------------------------------------------------------------------
-echo  [+] zDPI Tek Seferlik Mod Aktif!
-echo  [+] Bu pencere ACIK KALDIGI SURECE Discord ve tum siteler aciktir.
-echo  [+] Kapatmak istediginizde bu pencereyi kapatin veya Ctrl+C yapin.
-echo -----------------------------------------------------------------------
+echo =======================================================================
+echo  [+] zDPI TEK SEFERLIK MOD AKTIF! (0ms Ping)
+echo.
+echo  [+] Bu pencere ACIK KALDIGI SURECE:
+echo      - Discord uygulamasi ve tum ses kanallari aciktir.
+echo      - Turkiye'de engelli olan tum web siteleri aciktir.
+echo.
+echo  [!] Kapatmak istediginizde bu pencereyi kapatin veya Ctrl+C yapin.
+echo =======================================================================
 echo.
 
 winws.exe --wf-tcp=80,443 --wf-udp=443,50000-65535 ^
@@ -56,5 +60,5 @@ winws.exe --wf-tcp=80,443 --wf-udp=443,50000-65535 ^
 --filter-tcp=80,443 --dpi-desync=fake,split2 --dpi-desync-split-pos=1 --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --dpi-desync-repeats=6
 
 echo.
-echo [*] zDPI durduruldu.
+echo [*] zDPI durduruldu ve baglanti normale donduruldu.
 pause
