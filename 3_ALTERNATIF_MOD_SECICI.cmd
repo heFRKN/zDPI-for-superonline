@@ -40,11 +40,11 @@ set /p MOD_CHOICE="Lutfen bir mod secin (1-6, T, B, Q): "
 
 if /i "%MOD_CHOICE%"=="Q" exit /b 0
 if /i "%MOD_CHOICE%"=="T" (
-    call "3_HIZMETI_KALDIR_TEMIZLE.cmd"
+    call "4_HIZMETI_KALDIR_TEMIZLE.cmd"
     goto MENU
 )
 if /i "%MOD_CHOICE%"=="B" (
-    call "4_BAGLANTI_TESTI.cmd"
+    call "5_BAGLANTI_TESTI.cmd"
     goto MENU
 )
 
@@ -102,11 +102,12 @@ if "%ACTION_CHOICE%"=="3" goto MENU
 
 if "%ACTION_CHOICE%"=="1" (
     echo.
-    echo [*] Onceki servisler temizleniyor...
+    echo [*] Onceki servisler ve gorevler temizleniyor...
     sc stop zDPI >nul 2>&1
     sc delete zDPI >nul 2>&1
     sc stop WinDivert >nul 2>&1
     sc delete WinDivert >nul 2>&1
+    schtasks /Delete /TN "zDPI_Autostart" /F >nul 2>&1
     reg delete "HKLM\SYSTEM\CurrentControlSet\Services\WinDivert" /f >nul 2>&1
     taskkill /f /im winws.exe >nul 2>&1
 
@@ -114,17 +115,20 @@ if "%ACTION_CHOICE%"=="1" (
     ipconfig /flushdns >nul 2>&1
 
     echo [*] zDPI Hizmeti kuruluyor (!MOD_NAME!)...
-    set "CORE_EXE=%~dp0core\winws.exe"
+    set "CORE_DIR=%~dp0core"
+    set "CORE_EXE=%CORE_DIR%\winws.exe"
     sc create "zDPI" binPath= "\"%CORE_EXE%\" !ARGS!" DisplayName= "zDPI Bypass Service" start= auto >nul 2>&1
     sc description "zDPI" "zDPI Engine by FRKN (!MOD_NAME!)" >nul 2>&1
+    schtasks /Create /F /TN "zDPI_Autostart" /RL HIGHEST /RU "SYSTEM" /SC ONSTART /TR "\"%CORE_EXE%\" !ARGS!" >nul 2>&1
     sc start "zDPI" >nul 2>&1
+    powershell -Command "if (-not (Get-Process winws -ErrorAction SilentlyContinue)) { Start-Process -FilePath '%CORE_EXE%' -ArgumentList '!ARGS!' -WorkingDirectory '%CORE_DIR%' -WindowStyle Hidden }" >nul 2>&1
 
     echo [*] Discord yenileniyor...
     taskkill /f /im Discord.exe >nul 2>&1
 
     echo.
     echo =======================================================================
-    echo !MOD_NAME! HIZMET OLARAK KURULDU VE BASLATILDI!
+    echo !MOD_NAME! BASARIYLA KURULDU VE BASLATILDI!
     echo =======================================================================
     pause
     goto MENU
