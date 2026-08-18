@@ -1,6 +1,14 @@
 @echo off
 setlocal enabledelayedexpansion
 title zDPI - Temizle (by FRKN)
+
+:: Otomatik Yonetici Yukseltmesi (Cift tiklandiginda otomatik yonetici olarak acar)
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b
+)
+
 cd /d "%~dp0"
 
 echo.
@@ -10,17 +18,7 @@ echo                              by FRKN
 echo =======================================================================
 echo.
 
-:: Yonetici Yetkisi Kontrolu
-net session >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] HATA: Bu dosyayi Yonetici Olarak Calistir'maniz gerekmektedir!
-    echo [!] Lutfen Sag Tik yapip "Yonetici Olarak Calistir" secin.
-    echo.
-    pause
-    exit /b 1
-)
-
-echo [*] Servisler kaldiriliyor...
+echo [*] Servisler ve suruculer kaldiriliyor...
 sc stop zDPI >nul 2>&1
 sc delete zDPI >nul 2>&1
 sc stop zDPI_Service >nul 2>&1
@@ -33,6 +31,13 @@ sc stop zapret >nul 2>&1
 sc delete zapret >nul 2>&1
 sc stop GoodbyeDPI >nul 2>&1
 sc delete GoodbyeDPI >nul 2>&1
+sc stop WinDivert >nul 2>&1
+sc delete WinDivert >nul 2>&1
+sc stop WinDivert14 >nul 2>&1
+sc delete WinDivert14 >nul 2>&1
+
+reg delete "HKLM\SYSTEM\CurrentControlSet\Services\WinDivert" /f >nul 2>&1
+reg delete "HKLM\SYSTEM\CurrentControlSet\Services\WinDivert14" /f >nul 2>&1
 
 echo [*] Surecler sonlandiriliyor...
 taskkill /f /im winws.exe >nul 2>&1
