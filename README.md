@@ -7,9 +7,11 @@
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=flat-square&logo=windows&logoColor=white)](#-gereksinimler)
 [![ISP](https://img.shields.io/badge/ISP-Turkcell%20Superonline-FFC900?style=flat-square)](#-nasıl-çalışır)
 [![Engine](https://img.shields.io/badge/engine-zapret%20winws-2EA043?style=flat-square)](https://github.com/bol-van/zapret)
-[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=flat-square)](CHANGELOG.md)
+[![Release](https://img.shields.io/github/v/release/heFRKN/zDPI-for-superonline?style=flat-square&label=release)](https://github.com/heFRKN/zDPI-for-superonline/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/heFRKN/zDPI-for-superonline/total?style=flat-square)](https://github.com/heFRKN/zDPI-for-superonline/releases)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)](LICENSE)
 
+**[⬇️ İndir](https://github.com/heFRKN/zDPI-for-superonline/releases/latest)** •
 [Hızlı Başlangıç](#-hızlı-başlangıç) •
 [Dosyalar](#-dosyalar) •
 [Nasıl Çalışır](#-nasıl-çalışır) •
@@ -33,7 +35,7 @@
 
 ## 🚀 Hızlı Başlangıç
 
-1. Sağ üstteki **Code → Download ZIP** ile indirin ve bir klasöre çıkartın.
+1. **[Son sürümü indirin](https://github.com/heFRKN/zDPI-for-superonline/releases/latest)** (`zDPI-vX.X.X.zip`) ve bir klasöre çıkartın.
 2. **`1_HIZMETI_KUR_OTOMATIK.cmd`** dosyasına çift tıklayın, yönetici iznine **Evet** deyin.
 3. 1-2 dakika bekleyin. Program çalışan yöntemi bulup kuracak. Hepsi bu. ✅
 
