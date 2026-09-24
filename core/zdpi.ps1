@@ -11,16 +11,33 @@ param(
     [int]$Strategy = 0
 )
 
-$ZdpiVersion = '2.0.0'
+$ZdpiVersion = '2.1.0'
 $ErrorActionPreference = 'Continue'
 $CoreDir      = $PSScriptRoot
 $RootDir      = Split-Path $CoreDir -Parent
-$Exe          = Join-Path $CoreDir 'winws.exe'
 $Curl         = Join-Path $env:SystemRoot 'System32\curl.exe'
-$StrategyFile = Join-Path $CoreDir 'strateji.txt'
-$DnsMarker    = Join-Path $CoreDir 'dns_degisti.txt'
 $ServiceName  = 'zDPI'
 $InstallCmd   = Join-Path $RootDir '1_HIZMETI_KUR_OTOMATIK.cmd'
+
+# Guvenlik: hizmet SYSTEM yetkisiyle calistigi icin winws ve DLL'leri, yalnizca
+# yoneticilerin yazabildigi Program Files altina kopyalanir ve oradan calistirilir.
+# Kullanicinin yazabildigi indirme klasorunden SYSTEM olarak kod calistirilmaz.
+# Durum dosyalari (secilen yontem, DNS kaydi) da ayni korumali klasorde tutulur.
+$InstallDir   = Join-Path $env:ProgramFiles 'zDPI'
+$Exe          = Join-Path $InstallDir 'winws.exe'
+$StrategyFile = Join-Path $InstallDir 'strateji.txt'
+$DnsMarker    = Join-Path $InstallDir 'dns_degisti.txt'
+
+# Paketteki ikili dosyalarin SHA256 ozetleri. Dosyalar degistirilmisse kurulum yapilmaz.
+# Dordu de resmi zapret v72.13 surumunun binaries/windows-x86_64 klasoruyle birebir aynidir:
+# https://github.com/bol-van/zapret/releases/tag/v72.13 (sha256sum.txt)
+# WinDivert.dll / WinDivert64.sys ayrica resmi WinDivert 2.2.2 (basil00) ile aynidir.
+$Binaries = [ordered]@{
+    'winws.exe'       = 'A14BFF1DF6234EA555D2E0C61B589F0707C0B12D6C9B7EECCDA76012154996E8'
+    'cygwin1.dll'     = '103104A52E5293CE418944725DF19E2BF81AD9269B9A120D71D39028E821499B'
+    'WinDivert.dll'   = 'C1E060EE19444A259B2162F8AF0F3FE8C4428A1C6F694DCE20DE194AC8D7D9A2'
+    'WinDivert64.sys' = '8DA085332782708D8767BCACE5327A6EC7283C17CFB85E40B03CD2323A90DDC2'
+}
 
 # Ayni WinDivert surucusunu kullanan ve zDPI ile cakisan hizmetler/surecler.
 # NOT: "WinDivert" surucu hizmetine ASLA dokunulmaz. Kullanimdayken silinirse
@@ -69,11 +86,53 @@ function Show-Header([string]$title) {
 function Get-FullArgs([int]$idx) { return $BaseArgs + $Strategies[$idx - 1].Args }
 
 function Get-SavedStrategy {
-    try {
-        $n = [int](Get-Content $StrategyFile -ErrorAction Stop | Select-Object -First 1)
-        if ($n -ge 1 -and $n -le $Strategies.Count) { return $n }
-    } catch {}
+    # v2.0.0 yontemi core\strateji.txt'ye yaziyordu; yeni konumda yoksa oradan okunur.
+    foreach ($f in $StrategyFile, (Join-Path $CoreDir 'strateji.txt')) {
+        try {
+            $n = [int](Get-Content $f -ErrorAction Stop | Select-Object -First 1)
+            if ($n -ge 1 -and $n -le $Strategies.Count) { return $n }
+        } catch {}
+    }
     return 0
+}
+
+function Test-FileHash([string]$path, [string]$expected) {
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { return $false }
+    return ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash -eq $expected)
+}
+
+# Paketteki ikili dosyalari dogrular ve korumali kurulum klasorune kopyalar.
+function Install-Binaries {
+    Say '[*] Dosyalar dogrulaniyor ve korumali klasore kopyalaniyor...'
+    foreach ($name in $Binaries.Keys) {
+        if (-not (Test-FileHash (Join-Path $CoreDir $name) $Binaries[$name])) {
+            Say ("    [-] core\$name eksik, bozuk veya degistirilmis!") Red
+            Say  '        Guvenlik icin kurulum durduruldu. Programi GitHub Releases sayfasindan yeniden indirin.' Yellow
+            return $false
+        }
+    }
+    try {
+        New-Item -ItemType Directory -Path $InstallDir -Force -ErrorAction Stop | Out-Null
+        # Program Files'in varsayilan izinlerine don: yalnizca yoneticiler ve SYSTEM yazabilir
+        icacls.exe $InstallDir /reset /T /Q | Out-Null
+        foreach ($name in $Binaries.Keys) {
+            $dst = Join-Path $InstallDir $name
+            if (Test-FileHash $dst $Binaries[$name]) { continue }
+            Copy-Item -LiteralPath (Join-Path $CoreDir $name) -Destination $dst -Force -ErrorAction Stop
+        }
+    } catch {
+        Say ("    [-] Kurulum klasorune kopyalanamadi: " + $_.Exception.Message) Red
+        return $false
+    }
+    # Kopyalama sirasinda araya girilmediginden emin olmak icin hedefte tekrar dogrula
+    foreach ($name in $Binaries.Keys) {
+        if (-not (Test-FileHash (Join-Path $InstallDir $name) $Binaries[$name])) {
+            Say ("    [-] $InstallDir\$name dogrulanamadi.") Red
+            return $false
+        }
+    }
+    Say ("    [+] Dosyalar dogrulandi: " + $InstallDir) Green
+    return $true
 }
 
 # ---------------------------------------------------------------- temizlik
@@ -165,16 +224,24 @@ function Enable-SecureDns {
 }
 
 function Restore-Dns {
-    if (-not (Test-Path $DnsMarker)) { return }
-    foreach ($guid in Get-Content $DnsMarker) {
-        $a = Get-NetAdapter -ErrorAction SilentlyContinue | Where-Object InterfaceGuid -eq $guid
-        if ($a) { Set-DnsClientServerAddress -InterfaceIndex $a.ifIndex -ResetServerAddresses -ErrorAction SilentlyContinue }
-        Remove-Item "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$guid\DohInterfaceSettings" -Recurse -Force -ErrorAction SilentlyContinue
+    # v2.0.0 kaydi core\ altinda tutuyordu; o da okunur.
+    $markers = @($DnsMarker, (Join-Path $CoreDir 'dns_degisti.txt')) | Where-Object { Test-Path -LiteralPath $_ }
+    if (-not $markers) { return }
+    foreach ($m in $markers) {
+        foreach ($line in Get-Content -LiteralPath $m) {
+            # Yalnizca gecerli bir adaptor GUID'i kabul edilir. Dosyaya yazilmis baska bir deger
+            # ile registry'de yetkili (recurse) silme yapilmasini onler.
+            $guid = $line.Trim()
+            if ($guid -notmatch '^\{[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\}$') { continue }
+            $a = Get-NetAdapter -ErrorAction SilentlyContinue | Where-Object InterfaceGuid -eq $guid
+            if ($a) { Set-DnsClientServerAddress -InterfaceIndex $a.ifIndex -ResetServerAddresses -ErrorAction SilentlyContinue }
+            Remove-Item "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\InterfaceSpecificParameters\$guid\DohInterfaceSettings" -Recurse -Force -ErrorAction SilentlyContinue
+        }
+        Remove-Item -LiteralPath $m -Force -ErrorAction SilentlyContinue
     }
     foreach ($s in '1.1.1.1','1.0.0.1') {
         Set-DnsClientDohServerAddress -ServerAddress $s -AutoUpgrade $false -AllowFallbackToUdp $false -ErrorAction SilentlyContinue | Out-Null
     }
-    Remove-Item $DnsMarker -Force -ErrorAction SilentlyContinue
     ipconfig.exe /flushdns | Out-Null
     Say '  [+] DNS ayarlari varsayilana (DHCP) donduruldu.' Green
 }
@@ -205,8 +272,10 @@ function Test-Discord {
 # Stratejiyi gecici olarak calistirip Discord'a erisilebiliyor mu bakar.
 # Donus: 'ok' | 'fail' | 'driver' (winws baslayamadi)
 function Try-Strategy([int]$idx) {
-    $err = Join-Path $env:TEMP 'zdpi_winws_err.txt'
-    $p = Start-Process -FilePath $Exe -ArgumentList (Get-FullArgs $idx) -WorkingDirectory $CoreDir `
+    # Hata ciktisi korumali klasore yazilir (kullanicinin %TEMP%'ine yonetici olarak
+    # sabit isimli dosya yazmak sembolik link saldirisina acik olurdu).
+    $err = Join-Path $InstallDir 'winws_hata.txt'
+    $p = Start-Process -FilePath $Exe -ArgumentList (Get-FullArgs $idx) -WorkingDirectory $InstallDir `
          -WindowStyle Hidden -PassThru -RedirectStandardError $err
     Start-Sleep -Milliseconds 1500
     if ($p.HasExited) {
@@ -297,6 +366,7 @@ function Do-Install([int]$requested) {
 
     Say '[*] Eski hizmetler ve cakisan DPI programlari kaldiriliyor...'
     Stop-Conflicts -DeleteServices
+    if (-not (Install-Binaries)) { return }
     Ensure-Dns
 
     $idx = Resolve-StrategyOrExit $requested
@@ -351,6 +421,7 @@ function Do-Run([int]$requested) {
     Show-Header 'TEK SEFERLIK MOD (DISCORD VE YASAKLI SITELER)'
     Say '[*] Calisan zDPI / cakisan programlar durduruluyor...'
     Stop-Conflicts
+    if (-not (Install-Binaries)) { return }
     Ensure-Dns
 
     $idx = Resolve-StrategyOrExit $requested
@@ -365,7 +436,7 @@ function Do-Run([int]$requested) {
     Say  '      acildiginda (kuruluysa) tekrar kendiliginden baslar.' DarkGray
     Write-Host '=======================================================================' -ForegroundColor Cyan
     Write-Host ''
-    Push-Location $CoreDir
+    Push-Location $InstallDir
     & $Exe ((Get-FullArgs $idx) -split ' ')
     Pop-Location
     Say '[*] zDPI durduruldu.'
@@ -377,6 +448,11 @@ function Do-Uninstall {
     Stop-Conflicts -DeleteServices
     Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce' -Name 'zDPI_Kurulum' -ErrorAction SilentlyContinue
     Restore-Dns
+    if (Test-Path -LiteralPath $InstallDir) {
+        Remove-Item -LiteralPath $InstallDir -Recurse -Force -ErrorAction SilentlyContinue
+        if (Test-Path -LiteralPath $InstallDir) { Say ("  [i] " + $InstallDir + " yeniden baslatinca silinebilir (surucu kullanimda).") DarkGray }
+        else { Say ("  [+] " + $InstallDir + " kaldirildi.") Green }
+    }
     ipconfig.exe /flushdns | Out-Null
     Write-Host ''
     Say '=======================================================================' Cyan

@@ -1,5 +1,5 @@
 ================================================================================
-                       zDPI for Superonline  -  v2.0.0
+                       zDPI for Superonline  -  v2.1.0
                  Discord ve engelli siteler icin DPI bypass
                                   by FRKN
 ================================================================================
@@ -10,7 +10,8 @@ HIZLI BASLANGIC
   2) Yonetici izni sorulunca "Evet" deyin.
   3) 1-2 dakika bekleyin. Calisan yontem otomatik bulunup kurulur. Bitti.
 
-  Kurulumdan sonra bu klasoru SILMEYIN / TASIMAYIN.
+  Program C:\Program Files\zDPI klasorune kurulur. Bu klasoru ileride kaldirmak
+  veya yontem degistirmek icin saklayin.
 
 
 DOSYALAR
@@ -46,7 +47,8 @@ SORUN GIDERME
       ile baska bir yontem deneyin.
 
   * Antivirus uyari veriyor:
-      winws.exe ve WinDivert64.sys acik kaynakli zapret projesine aittir.
+      Dosyalar resmi zapret v72.13 surumuyle birebir aynidir ve kurulumda
+      SHA256 ile dogrulanir.
       Klasoru antivirus istisnalarina ekleyebilirsiniz.
 
 
@@ -54,7 +56,7 @@ BILGI
 -----
   - VPN DEGILDIR. Trafiginizi yonlendirmez, oyunlarda ping'e etkisi yoktur.
   - Discord ses kanallari (RTC / UDP) dahil calisir.
-  - Motor: zapret / winws (bol-van) + WinDivert (basil00).
+  - Motor: zapret v72.13 / winws (bol-van) + WinDivert 2.2.2 (basil00).
     Lisanslar icin THIRD_PARTY_NOTICES.md dosyasina bakin.
 
   GitHub: https://github.com/heFRKN/zDPI-for-superonline

@@ -40,8 +40,8 @@
 3. 1-2 dakika bekleyin. Program çalışan yöntemi bulup kuracak. Hepsi bu. ✅
 
 > [!TIP]
-> Kurulumdan sonra klasörü silmeyin veya taşımayın; hizmet dosyaları oradan çalıştırır.
-> Taşımak isterseniz önce `4_HIZMETI_KALDIR_TEMIZLE.cmd`, sonra yeni yerde tekrar `1_...` çalıştırın.
+> Kurulum, çalışma dosyalarını korumalı `C:\Program Files\zDPI` klasörüne kopyalar. İndirdiğiniz klasörü taşıyabilirsiniz;
+> sadece ileride kaldırmak veya yöntem değiştirmek için `.cmd` dosyalarını bir yerde saklayın.
 
 ## 📁 Dosyalar
 
@@ -71,7 +71,7 @@ Cakisan servisleri durdur  →  DNS'i kontrol et (gerekirse DoH ac)  →  13 yon
         →  ilk calisan yontemi "zDPI" hizmeti olarak kur  →  son test
 ```
 
-Seçilen yöntem `core/strateji.txt` dosyasına kaydedilir ve bir sonraki kurulumda ilk olarak o denenir.
+Seçilen yöntem `C:\Program Files\zDPI\strateji.txt` dosyasına kaydedilir ve bir sonraki kurulumda ilk olarak o denenir.
 
 <details>
 <summary><b>Denenen yöntemler (sırasıyla)</b></summary>
@@ -134,8 +134,23 @@ zDPI alan adı (SNI) tabanlı engelleri aşar. Doğrudan IP adresi üzerinden en
 
 `winws.exe` ve `WinDivert64.sys` ağ paketlerini işleyen araçlar olduğu için bazı antivirüsler bunları
 "riskli yazılım" olarak işaretleyebilir. Dosyalar açık kaynaklı [zapret](https://github.com/bol-van/zapret)
-projesinin resmi derlemeleridir. Klasörü antivirüs istisnalarına ekleyebilirsiniz.
+projesinin resmi v72.13 derlemesiyle birebir aynıdır (bkz. [Güvenlik](#-güvenlik)). Klasörü antivirüs istisnalarına ekleyebilirsiniz.
 </details>
+
+## 🔒 Güvenlik
+
+- **Doğrulanmış dosyalar:** `core/` içindeki dört dosya, resmi [zapret v72.13](https://github.com/bol-van/zapret/releases/tag/v72.13)
+  sürümünün `binaries/windows-x86_64` klasörüyle birebir aynıdır. SHA256 özetleri `core/zdpi.ps1` içinde sabitlidir ve
+  dosyalar değiştirilmişse kurulum yapılmaz. Her sürümün `SHA256SUMS.txt` dosyası Releases sayfasındadır.
+- **Korumalı kurulum:** Hizmet SYSTEM yetkisiyle çalıştığından, dosyaları yalnızca yöneticilerin yazabildiği
+  `C:\Program Files\zDPI` klasöründen çalışır. İndirme klasöründen SYSTEM olarak kod çalıştırılmaz.
+- **Açık bildirimi:** Güvenlik açıklarını lütfen herkese açık issue yerine [SECURITY.md](SECURITY.md) üzerinden bildirin.
+
+İndirdiğiniz ZIP'i doğrulamak için PowerShell'de:
+
+```powershell
+Get-FileHash .\zDPI-v2.1.0.zip -Algorithm SHA256   # Releases'teki SHA256SUMS.txt ile karşılaştırın
+```
 
 ## 📋 Gereksinimler
 
