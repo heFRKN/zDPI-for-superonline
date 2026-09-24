@@ -10,3 +10,7 @@ __pycache__/
 # Windows temp
 Thumbs.db
 Desktop.ini
+
+# zDPI yerel durum dosyalari
+core/strateji.txt
+core/dns_degisti.txt

@@ -14,7 +14,7 @@ Dosyalara sag tik yapmaniza gerek yoktur, CIFT TIKLAMANIZ yeterlidir!
 (Otomatik yonetici izni alarak baslar.)
 
 - 1_HIZMETI_KUR_OTOMATIK.cmd :
-  (ONERILEN) zDPI sistemini Windows hizmeti olarak kurar. Bilgisayariniz her
+  (ONERILEN) Calisan yontemi otomatik bulur, Windows hizmeti olarak kurar. Bilgisayariniz her
   acildiginda arkada otomatik ve sessizce calisir. 0ms ping ekler.
   Discord ve tum yasakli sitelere 7/24 kesintisiz giris saglar.
 
@@ -24,9 +24,8 @@ Dosyalara sag tik yapmaniza gerek yoktur, CIFT TIKLAMANIZ yeterlidir!
   kapattiginizda otomatik sonlanir.
 
 - 3_ALTERNATIF_MOD_SECICI.cmd :
-  (SUPERONLINE ALTERNATIFLERI) Eger varsayilan mod arkadasinizda veya sizde
-  calismazsa, bu dosyayi calistirarak 6 farkli Superonline DPI profilinden
-  birini secip tek tikla kurabilir veya tek seferlik test edebilirsiniz.
+  Kurulum calismazsa 13 farkli Superonline yonteminden birini elle secip
+  kurabilir veya tek seferlik deneyebilirsiniz.
 
 - 4_HIZMETI_KALDIR_TEMIZLE.cmd :
   Kurulmus servisi siler ve tum ag ayarlarini varsayilana sifirlar.
@@ -35,17 +34,12 @@ Dosyalara sag tik yapmaniza gerek yoktur, CIFT TIKLAMANIZ yeterlidir!
   Discord sunucularina ve web sitelerine erisiminizi aninda test eder.
 
 --------------------------------------------------------------------------------
-2. SUPERONLINE ALTERNATIF MODLARI (alternatifler/ Klasoru)
+2. SORUN GIDERME
 --------------------------------------------------------------------------------
-Farkli sehirlerde (Izmir, Istanbul, Ankara vb.) ve farkli altyapilarda (Fiber/VDSL)
-DPI kurallari degisebilir. "alternatifler" klasorunde yer alan modlar:
-
-- Mod 1 (Standart): En guncel Fake+Split2 Superonline profili.
-- Mod 2 (TTL 3): Klasik Superonline TTL 3 bypass profili.
-- Mod 3 (Agresif): Multi-disorder paket bolucu (Kati DPI filtreleri icin).
-- Mod 4 (TTL 4): Turkcell genel fiber/VDSL profili.
-- Mod 5 (Discord Ses STUN): Discord ses odasinda "RTC baglaniyor"da takilanlar icin.
-- Mod 6 (Hafif Fake): Sade fake paket modu.
+- 1_HIZMETI_KUR_OTOMATIK hattinizda calisan yontemi KENDISI bulur.
+- "WinDivert takili" uyarisi cikarsa bilgisayari yeniden baslatin;
+  kurulum acilista kendiliginden devam eder.
+- Hicbir yontem calismazsa SplitWire, WARP veya VPN aciksa kapatin.
 
 --------------------------------------------------------------------------------
 3. ONEMLI BILGILER
