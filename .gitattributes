@@ -1,8 +1,10 @@
-# Windows betikleri CRLF ile kalmali; LF satir sonlu .cmd dosyalari hatali calisabilir.
-*.cmd   text eol=crlf
-*.bat   text eol=crlf
-*.ps1   text eol=crlf
-*.txt   text eol=crlf
+# Windows betikleri repoda CRLF olarak saklanir (-text: git donusturmez).
+# Boylece GitHub "Download ZIP" ile de her zaman CRLF satir sonlariyla iner;
+# LF satir sonlu .cmd dosyalari cmd.exe'de hatali calisabilir.
+*.cmd   -text
+*.bat   -text
+*.ps1   -text
+*.txt   -text
 
 *.md    text eol=lf
 *.yml   text eol=lf
