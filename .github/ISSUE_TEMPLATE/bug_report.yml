@@ -1,0 +1,60 @@
+name: Hata bildirimi
+description: zDPI çalışmıyor veya beklenmedik bir şey oluyor
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bildirmeden önce lütfen README'deki **Sorun Giderme** bölümüne göz atın ve bilgisayarı bir kez yeniden başlatıp tekrar deneyin.
+  - type: dropdown
+    id: isp
+    attributes:
+      label: İnternet sağlayıcı
+      options:
+        - Turkcell Superonline (Fiber)
+        - Turkcell Superonline (VDSL)
+        - Türk Telekom
+        - Vodafone
+        - Kablonet
+        - Diğer
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Windows sürümü
+      options:
+        - Windows 11
+        - Windows 10
+    validations:
+      required: true
+  - type: dropdown
+    id: file
+    attributes:
+      label: Hangi dosyayı çalıştırdınız?
+      options:
+        - 1_HIZMETI_KUR_OTOMATIK.cmd
+        - 2_TEK_SEFERLIK_BASLAT_DISCORD_VE_YASAKLI_SITELER.cmd
+        - 3_ALTERNATIF_MOD_SECICI.cmd
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Sorun
+      description: Ne oluyor, ne olmasını bekliyordunuz?
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: 5_BAGLANTI_TESTI çıktısı
+      description: "`5_BAGLANTI_TESTI.cmd` çalıştırıp pencerenin içeriğini buraya yapıştırın."
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: Açık olan diğer programlar
+      description: SplitWire, GoodbyeDPI, WARP, VPN, antivirüs vb.

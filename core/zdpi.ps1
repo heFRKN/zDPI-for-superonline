@@ -11,6 +11,7 @@ param(
     [int]$Strategy = 0
 )
 
+$ZdpiVersion = '2.0.0'
 $ErrorActionPreference = 'Continue'
 $CoreDir      = $PSScriptRoot
 $RootDir      = Split-Path $CoreDir -Parent
@@ -60,7 +61,7 @@ function Show-Header([string]$title) {
     Write-Host ''
     Write-Host '=======================================================================' -ForegroundColor Cyan
     Write-Host ("  zDPI - " + $title) -ForegroundColor Cyan
-    Write-Host '                              by FRKN' -ForegroundColor DarkCyan
+    Write-Host ("                         v" + $ZdpiVersion + "  by FRKN") -ForegroundColor DarkCyan
     Write-Host '=======================================================================' -ForegroundColor Cyan
     Write-Host ''
 }

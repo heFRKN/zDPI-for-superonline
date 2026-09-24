@@ -1,16 +1,13 @@
-# Local GitHub helper script (keep local, do not upload to repo)
-GITHUB_YUKLE.cmd
-
-# Python & logs
-__pycache__/
-*.py[cod]
-*$py.class
-*.log
-
-# Windows temp
-Thumbs.db
-Desktop.ini
-
-# zDPI yerel durum dosyalari
+# zDPI yerel durum dosyalari (kuruluma ozel)
 core/strateji.txt
 core/dns_degisti.txt
+
+# Yerel yardimci betikler
+GITHUB_YUKLE.cmd
+
+# Loglar
+*.log
+
+# Windows
+Thumbs.db
+Desktop.ini
